@@ -5,6 +5,7 @@ import dev.tumy.contentcalendar.model.Status;
 import dev.tumy.contentcalendar.model.Type;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class ContentCollectionRepository {
 
         contentList.add(content);
     }
-
+    @PostMapping("/api/content")
     public void save(Content content) {
         contentList.add(content);
     }

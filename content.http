@@ -1,0 +1,23 @@
+
+
+### Find all content
+GET http://localhost:8080/api/content/
+
+### Get content by ID
+GET http://localhost:8080/api/content
+
+### Create new Content
+POST http://localhost:8080/api/content
+Content-Type: application/json
+
+
+{
+  "id": 2,
+  "title": "My second blog post",
+  "desc": "My secondk blog post",
+  "status": "IDEA",
+  "contentType": "ARTICLE",
+  "dateCreated": "2024-03-11T23:36:51.4721715",
+  "dateUpdated": null,
+  "url": ""
+}

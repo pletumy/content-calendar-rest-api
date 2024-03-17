@@ -1,8 +1,10 @@
 package dev.tumy.contentcalendar.controller;
 
 import dev.tumy.contentcalendar.model.Content;
+import dev.tumy.contentcalendar.model.Status;
 import dev.tumy.contentcalendar.repository.ContentCollectionRepository;
 import dev.tumy.contentcalendar.repository.ContentJdbcTemplateRepository;
+import dev.tumy.contentcalendar.repository.ContentRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,12 +18,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/content")
-@CrossOrigin
 public class ContentController {
-    private final ContentCollectionRepository repository;
+    private final ContentRepository repository;
 
     //private final ContentJdbcTemplateRepository repository;
-    public ContentController(ContentCollectionRepository repository) {
+    public ContentController(ContentRepository repository) {
         this.repository = repository;
     }
     @GetMapping("")    //tạo request và tìm kiếm tất cả content trong hệ thống
@@ -41,8 +42,8 @@ public class ContentController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public void update(@RequestBody Content content,@PathVariable Integer id) {
-        if(!repository.existById(id)) {
+    public void update(@Valid @RequestBody Content content,@PathVariable Integer id) {
+        if(!repository.existsById(id)) {
           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Content not found!");
         }
         repository.save(content);
@@ -50,7 +51,14 @@ public class ContentController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void delete(Integer id) {
-        repository.delete(id);
+    public void delete(@PathVariable  Integer id) {
+        repository.deleteById(id);
     }
+
+    @GetMapping("/filter/type/{type}")
+    public List<Content> filterByType(@PathVariable String type) {
+        return repository.findAllByContentType(type.toUpperCase());
+    }
+
+
 }

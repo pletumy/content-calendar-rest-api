@@ -27,7 +27,10 @@ public class ContentCollectionRepository {
     public Optional<Content> findById(Integer id) {
         return contentList.stream().filter(c -> c.id().equals(id)).findFirst();
     }
-
+    public void save(Content content) {
+        contentList.removeIf(c -> c.id().equals(content.id()));
+        contentList.add(content);
+    }
     @PostConstruct
     private void init() {
         Content content = new Content(1,
@@ -41,11 +44,7 @@ public class ContentCollectionRepository {
 
         contentList.add(content);
     }
-    @PostMapping("/api/content")
-    public void save(Content content) {
-        contentList.removeIf(c -> c.id().equals(content.id()));
-        contentList.add(content);
-    }
+
 
 
     public boolean existById(Integer id) {
